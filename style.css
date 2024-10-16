@@ -1,0 +1,110 @@
+*{
+    margin: 0;
+    padding: 0;
+
+}
+.hero{
+    height: 100vh;
+    width: 100vw;
+    background-color: #0b132b;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.total{
+    border: 2px solid white;
+    color: white;
+    width: 100px;
+    text-align: center;
+}
+.cont{
+    background-color: #1c2541;
+    width: 40vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    box-shadow: 18px 30px 31px black;
+}
+h1{
+    color: white;
+}
+.cash{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.mon{
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+.mon span{
+    color: white;
+}
+.cash img{
+   width: 120px;
+}
+.mon input{
+    width: 200px    ;
+   height: 30px;
+   outline: none;
+   text-align: end;
+   padding: 0PX 10px;
+   
+}
+
+.button button{
+    outline: none;
+    border: none;
+    width: 150px;
+    height: 30px;
+    font-size: 20px;
+    background-color: #5bc0be;
+    margin-bottom: 20px;
+    color: white;
+    font-weight: 600;
+}
+button:hover{
+    border: 2px solid white; 
+    
+    background-color: white;
+    color:#5bc0be ;
+}
+.button{
+    display: flex;
+    gap: 20px;
+}
+
+@media (max-width:1400px) {
+  .cont{
+    /* background-color: red; */
+    width: 90vw;
+  }
+  .mon img{
+    width: 80px;
+  }
+  .cash input{
+    width: 50vw;
+  }
+ .button button{
+    width: 100px;
+  }
+}
+@media (max-width:450px){
+    .mon input{
+        width: 110px;
+    }
+    .button button{
+        width: 80px;
+        font-weight: 200;
+        font-size: medium;
+      }
+      
+}
+@media (max-width:300px){
+    .mon input{
+        width: 70px;
+    }
+}
