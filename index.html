@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>Money Counter</title> <link rel="stylesheet" href="style.css"> </head>
+
+<body>
+
+<nav class="navbar">
+
+    <div class="logo">
+        SHOP CALCULATOR
+    </div>
+
+    <div class="nav-links">
+        <a href="index.html" class="active">Money Counter</a>
+        <a href="price-calculator.html">Price Calculator</a>
+    </div>
+
+</nav>
+
+
+<main class="hero">
+
+    <div class="cont">
+
+        <h1>MONEY COUNTER</h1>
+
+        <div class="cash">
+
+            <div class="mon">
+                <img src="img/500.png" alt="₹500">
+                <span>X</span>
+                <input id="five" type="number" min="0" placeholder="0">
+            </div>
+
+            <div class="mon">
+                <img src="img/200N.png" alt="₹200">
+                <span>X</span>
+                <input id="two" type="number" min="0" placeholder="0">
+            </div>
+
+            <div class="mon">
+                <img src="img/100.png" alt="₹100">
+                <span>X</span>
+                <input id="one" type="number" min="0" placeholder="0">
+            </div>
+
+            <div class="mon">
+                <img src="img/50.png" alt="₹50">
+                <span>X</span>
+                <input id="fifty" type="number" min="0" placeholder="0">
+            </div>
+
+            <div class="mon">
+                <img src="img/20.png" alt="₹20">
+                <span>X</span>
+                <input id="twenty" type="number" min="0" placeholder="0">
+            </div>
+
+            <div class="mon">
+                <img src="img/10.png" alt="₹10">
+                <span>X</span>
+                <input id="ten" type="number" min="0" placeholder="0">
+            </div>
+
+        </div>
+
+        <div class="total" id="moneyTotal">
+            ₹0
+        </div>
+
+        <button class="reset-btn" id="resetBtn">
+            Reset
+        </button>
+
+    </div>
+
+</main>
+
+<script src="money-counter.js"></script>
+
+</body>
+
+</html>

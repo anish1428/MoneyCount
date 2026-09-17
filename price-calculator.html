@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>Price Calculator</title> <link rel="stylesheet" href="style.css"> </head>
+
+<body>
+
+<nav class="navbar">
+
+    <div class="logo">
+        SHOP CALCULATOR
+    </div>
+
+    <div class="nav-links">
+        <a href="index.html">Money Counter</a>
+        <a href="price-calculator.html" class="active">Price Calculator</a>
+    </div>
+
+</nav>
+
+
+<main class="hero">
+
+    <div class="cont">
+
+        <h1>PRICE ↔ QUANTITY</h1>
+
+        <p class="subtitle">
+            Calculate price or quantity instantly
+        </p>
+
+
+        <div class="calculator">
+
+            <div class="form-group">
+
+                <label>Product Rate</label>
+
+                <div class="rate-box">
+
+                    <div class="rate-field">
+
+                        <span class="rupee">₹</span>
+
+                        <input
+                            id="rate"
+                            type="number"
+                            min="0"
+                            step="any"
+                            placeholder="Price"
+                        >
+
+                    </div>
+
+                    <span class="for-text">
+                        for
+                    </span>
+
+                    <div class="quantity-field">
+
+                        <input
+                            id="rateQuantity"
+                            type="number"
+                            min="0"
+                            step="any"
+                            placeholder="Quantity"
+                        >
+
+                        <select id="rateUnit">
+
+                            <option value="kg">
+                                KG
+                            </option>
+
+                            <option value="g" selected>
+                                Gram
+                            </option>
+
+                            <option value="mg">
+                                Milligram
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    What do you want to calculate?
+                </label>
+
+                <div class="radio-container">
+
+                    <label class="radio-option">
+
+                        <input
+                            type="radio"
+                            name="calculation"
+                            value="moneyToQuantity"
+                            checked
+                        >
+
+                        <span>
+                            Money → Quantity
+                        </span>
+
+                    </label>
+
+                    <label class="radio-option">
+
+                        <input
+                            type="radio"
+                            name="calculation"
+                            value="quantityToMoney"
+                        >
+
+                        <span>
+                            Quantity → Money
+                        </span>
+
+                    </label>
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="form-group"
+                id="moneyInputGroup"
+            >
+
+                <label>
+                    Money
+                </label>
+
+                <div class="input-row">
+
+                    <span class="rupee">
+                        ₹
+                    </span>
+
+                    <input
+                        id="moneyInput"
+                        type="number"
+                        min="0"
+                        step="any"
+                        placeholder="Enter amount"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="form-group hidden"
+                id="quantityInputGroup"
+            >
+
+                <label>
+                    Quantity
+                </label>
+
+                <div class="input-row">
+
+                    <input
+                        id="quantityInput"
+                        type="number"
+                        min="0"
+                        step="any"
+                        placeholder="Enter quantity"
+                    >
+
+                    <select id="quantityUnit">
+
+                        <option value="kg">
+                            KG
+                        </option>
+
+                        <option value="g" selected>
+                            Gram
+                        </option>
+
+                        <option value="mg">
+                            Milligram
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <button
+                class="calculate-btn"
+                id="calculateBtn"
+            >
+                Calculate
+            </button>
+
+
+            <div class="result">
+
+                <div class="result-title">
+                    RESULT
+                </div>
+
+                <div
+                    class="result-value"
+                    id="result"
+                >
+                    —
+                </div>
+
+                <div
+                    class="result-details"
+                    id="resultDetails"
+                >
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+<script src="price-calculator.js"></script>
+
+</body>
+
+</html>
