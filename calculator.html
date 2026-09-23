@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Money Calculator</title>
+    <link rel="stylesheet" href="calculator.css">
+</head>
+<body>
+
+<div class="calculator-app">
+
+    <div class="calculator">
+
+        <div class="brand-row">
+            <span class="brand">CASIO STYLE</span>
+            <span class="model">ST-1786</span>
+        </div>
+
+        <div class="display-area">
+            <div id="mode" class="mode"></div>
+            <div id="display">0</div>
+        </div>
+
+        <div class="top-actions">
+            <button class="blue" data-action="check">CHECK</button>
+            <button class="blue" data-action="correct">CORRECT</button>
+            <button class="green" data-action="ac">AC</button>
+        </div>
+
+        <div class="memory-row">
+            <button data-action="memory-plus">M+</button>
+            <button data-action="memory-minus">M−</button>
+            <button data-action="memory-recall">MRC</button>
+            <button data-action="history">HISTORY</button>
+            <button data-action="ce">CE</button>
+        </div>
+
+        <div class="keypad">
+
+            <button class="number" data-value="7">7</button>
+            <button class="number" data-value="8">8</button>
+            <button class="number" data-value="9">9</button>
+            <button class="operator" data-value="/">÷</button>
+            <button class="function" data-action="gt">GT</button>
+
+            <button class="number" data-value="4">4</button>
+            <button class="number" data-value="5">5</button>
+            <button class="number" data-value="6">6</button>
+            <button class="operator" data-value="*">×</button>
+            <button class="function" data-action="percent">%</button>
+
+            <button class="number" data-value="1">1</button>
+            <button class="number" data-value="2">2</button>
+            <button class="number" data-value="3">3</button>
+            <button class="operator" data-value="-">−</button>
+            <button class="function" data-action="mu">MU</button>
+
+            <button class="number" data-value="0">0</button>
+            <button class="number" data-value="00">00</button>
+            <button class="number" data-value=".">.</button>
+            <button class="operator" data-value="+">+</button>
+            <button class="function" data-action="sqrt">√</button>
+
+            <button class="number" data-value="000">000</button>
+            <button class="number" data-value="0000">0000</button>
+            <button class="empty-key"></button>
+            <button class="equals" data-action="equals">=</button>
+            <button class="function"></button>
+
+        </div>
+
+    </div>
+
+    <div id="historyPanel" class="history-panel hidden">
+
+        <div class="history-header">
+            <h2>Calculation History</h2>
+            <button id="closeHistory">×</button>
+        </div>
+
+        <div id="historyList"></div>
+
+        <button id="clearHistory" class="clear-history">
+            CLEAR HISTORY
+        </button>
+
+    </div>
+
+</div>
+
+<script src="calculator.js"></script>
+</body>
+</html>
