@@ -1,41 +1,87 @@
-const display = document.getElementById("display");
-const modeDisplay = document.getElementById("mode");
+const display =
+    document.getElementById("display");
+
+const modeDisplay =
+    document.getElementById("mode");
+
 
 let current = "0";
+
 let firstNumber = null;
+
 let operator = null;
+
 let waitingForNumber = false;
 
+
+/*
+    NUMBERS AND OPERATORS ARE STORED
+    SEPARATELY.
+
+    Example:
+
+    23 + 34 + 15
+
+    numbers:
+    [23, 34, 15]
+
+    operators:
+    ["+", "+"]
+*/
+
 let numbers = [];
+
 let operators = [];
 
 let lastResult = null;
 
+
+/* MEMORY */
+
 let memory = 0;
+
 let memoryRecallPressed = false;
+
+
+/* GRAND TOTAL */
 
 let grandTotal = 0;
 
-let checked = false;
+
+/* CHECK */
+
 let checkIndex = 0;
 
+let checked = false;
 
-/* ---------------- DISPLAY ---------------- */
+
+/* =========================================
+   DISPLAY
+========================================= */
 
 function updateDisplay() {
 
-    const number = Number(current);
+    const number =
+        Number(current);
+
 
     if (!Number.isFinite(number)) {
-        display.textContent = "Error";
+
+        display.textContent =
+            "Error";
+
         return;
     }
 
-    display.textContent = current;
+
+    display.textContent =
+        current;
 }
 
 
-/* ---------------- NUMBERS ---------------- */
+/* =========================================
+   NUMBER INPUT
+========================================= */
 
 function inputNumber(value) {
 
@@ -46,57 +92,99 @@ function inputNumber(value) {
                 ? "0."
                 : value;
 
-        waitingForNumber = false;
+        waitingForNumber =
+            false;
 
         updateDisplay();
 
         return;
     }
 
+
     if (value === ".") {
 
         if (!current.includes(".")) {
+
             current += ".";
         }
 
     } else {
 
         if (current === "0") {
+
             current = value;
+
         } else {
+
             current += value;
         }
     }
+
 
     updateDisplay();
 }
 
 
-/* ---------------- OPERATORS ---------------- */
+/* =========================================
+   OPERATOR
+========================================= */
 
 function inputOperator(op) {
 
-    if (operator !== null && !waitingForNumber) {
+    /*
+        If another operator is already waiting,
+        finish the previous operation.
+    */
+
+    if (
+        operator !== null &&
+        !waitingForNumber
+    ) {
+
         calculateCurrent();
     }
 
-    if (numbers.length === 0) {
-        numbers.push(Number(current));
-    } else if (!waitingForNumber) {
-        numbers.push(Number(current));
+
+    /*
+        First number
+    */
+
+    if (
+        numbers.length === 0
+    ) {
+
+        numbers.push(
+            Number(current)
+        );
+
+    } else if (
+        !waitingForNumber
+    ) {
+
+        numbers.push(
+            Number(current)
+        );
     }
+
 
     operators.push(op);
 
-    firstNumber = Number(current);
+
+    firstNumber =
+        Number(current);
+
 
     operator = op;
 
-    waitingForNumber = true;
+
+    waitingForNumber =
+        true;
 }
 
 
-/* ---------------- CALCULATION ---------------- */
+/* =========================================
+   CALCULATE
+========================================= */
 
 function calculateCurrent() {
 
@@ -104,88 +192,153 @@ function calculateCurrent() {
         firstNumber === null ||
         operator === null
     ) {
+
         return Number(current);
     }
 
-    const secondNumber = Number(current);
 
-    let result;
+    const secondNumber =
+        Number(current);
+
+
+    let result = 0;
+
 
     switch (operator) {
 
         case "+":
-            result = firstNumber + secondNumber;
+
+            result =
+                firstNumber +
+                secondNumber;
+
             break;
+
 
         case "-":
-            result = firstNumber - secondNumber;
+
+            result =
+                firstNumber -
+                secondNumber;
+
             break;
 
+
         case "*":
-            result = firstNumber * secondNumber;
+
+            result =
+                firstNumber *
+                secondNumber;
+
             break;
+
 
         case "/":
 
-            if (secondNumber === 0) {
+            if (
+                secondNumber === 0
+            ) {
+
                 result = 0;
+
             } else {
+
                 result =
-                    firstNumber / secondNumber;
+                    firstNumber /
+                    secondNumber;
             }
 
             break;
     }
 
-    current = cleanNumber(result);
 
-    firstNumber = null;
-    operator = null;
+    current =
+        cleanNumber(result);
 
-    waitingForNumber = true;
+
+    firstNumber =
+        null;
+
+    operator =
+        null;
+
+    waitingForNumber =
+        true;
+
 
     updateDisplay();
+
 
     return Number(current);
 }
 
 
+/* =========================================
+   EQUALS
+========================================= */
+
 function equals() {
 
-    if (operator === null) {
+    if (
+        operator === null
+    ) {
 
-        lastResult = Number(current);
+        lastResult =
+            Number(current);
 
         return;
     }
 
+
+    /*
+        Store the final number.
+    */
+
     if (!waitingForNumber) {
 
-        numbers.push(Number(current));
+        numbers.push(
+            Number(current)
+        );
     }
 
-    const result = calculateCurrent();
 
-    lastResult = Number(result);
+    const result =
+        calculateCurrent();
 
-    grandTotal += lastResult;
 
-    checked = false;
+    lastResult =
+        Number(result);
+
+
+    grandTotal +=
+        lastResult;
+
+
+    checked =
+        false;
+
 
     modeDisplay.textContent =
         "PRESS CHECK TO VERIFY";
+
 
     updateDisplay();
 }
 
 
-/* ---------------- CLEAN ---------------- */
+/* =========================================
+   CLEAN NUMBER
+========================================= */
 
 function cleanNumber(number) {
 
-    if (!Number.isFinite(number)) {
+    if (
+        !Number.isFinite(number)
+    ) {
+
         return "0";
     }
+
 
     return String(
         Number(
@@ -195,23 +348,28 @@ function cleanNumber(number) {
 }
 
 
-/* ---------------- CLEAR ---------------- */
+/* =========================================
+   AC
+========================================= */
 
 function clearAll() {
 
     current = "0";
 
     firstNumber = null;
+
     operator = null;
 
     waitingForNumber = false;
 
     numbers = [];
+
     operators = [];
 
     lastResult = null;
 
     checked = false;
+
     checkIndex = 0;
 
     modeDisplay.textContent = "";
@@ -219,6 +377,10 @@ function clearAll() {
     updateDisplay();
 }
 
+
+/* =========================================
+   CE
+========================================= */
 
 function clearEntry() {
 
@@ -230,41 +392,62 @@ function clearEntry() {
 }
 
 
-/* ---------------- MEMORY ---------------- */
+/* =========================================
+   MEMORY +
+========================================= */
 
 function memoryPlus() {
 
-    memory += Number(current);
+    memory +=
+        Number(current);
 
-    memory = Number(
-        cleanNumber(memory)
-    );
+    memory =
+        Number(
+            cleanNumber(memory)
+        );
 
-    modeDisplay.textContent = "M";
+    modeDisplay.textContent =
+        "M";
 }
 
+
+/* =========================================
+   MEMORY -
+========================================= */
 
 function memoryMinus() {
 
-    memory -= Number(current);
+    memory -=
+        Number(current);
 
-    memory = Number(
-        cleanNumber(memory)
-    );
+    memory =
+        Number(
+            cleanNumber(memory)
+        );
 
-    modeDisplay.textContent = "M";
+    modeDisplay.textContent =
+        "M";
 }
 
 
+/* =========================================
+   MRC
+========================================= */
+
 function memoryRecall() {
 
-    if (!memoryRecallPressed) {
+    if (
+        !memoryRecallPressed
+    ) {
 
-        current = cleanNumber(memory);
+        current =
+            cleanNumber(memory);
 
-        waitingForNumber = true;
+        waitingForNumber =
+            true;
 
-        memoryRecallPressed = true;
+        memoryRecallPressed =
+            true;
 
         updateDisplay();
 
@@ -272,95 +455,125 @@ function memoryRecall() {
 
         memory = 0;
 
-        memoryRecallPressed = false;
+        memoryRecallPressed =
+            false;
 
-        modeDisplay.textContent = "";
+        modeDisplay.textContent =
+            "";
     }
 }
 
 
-/* ---------------- GT ---------------- */
+/* =========================================
+   GT
+========================================= */
 
 function grandTotalFunction() {
 
-    current = cleanNumber(grandTotal);
+    current =
+        cleanNumber(grandTotal);
 
-    waitingForNumber = true;
+    waitingForNumber =
+        true;
 
     updateDisplay();
 }
 
 
-/* ---------------- PERCENT ---------------- */
+/* =========================================
+   PERCENT
+========================================= */
 
 function percentage() {
 
-    current = cleanNumber(
-        Number(current) / 100
-    );
+    current =
+        cleanNumber(
+            Number(current) / 100
+        );
 
-    waitingForNumber = true;
+    waitingForNumber =
+        true;
 
     updateDisplay();
 }
 
 
-/* ---------------- SQRT ---------------- */
+/* =========================================
+   SQRT
+========================================= */
 
 function squareRoot() {
 
-    current = cleanNumber(
-        Math.sqrt(Number(current))
-    );
+    current =
+        cleanNumber(
+            Math.sqrt(
+                Number(current)
+            )
+        );
 
-    waitingForNumber = true;
+    waitingForNumber =
+        true;
 
     updateDisplay();
 }
 
 
-/* ---------------- MU ---------------- */
+/* =========================================
+   MU
+========================================= */
 
 function markup() {
 
-    const value = Number(current);
+    const value =
+        Number(current);
 
-    if (firstNumber !== null) {
 
-        current = cleanNumber(
-            firstNumber +
-            firstNumber * value / 100
-        );
+    if (
+        firstNumber !== null
+    ) {
 
-        firstNumber = null;
-        operator = null;
+        current =
+            cleanNumber(
+                firstNumber +
+                (
+                    firstNumber *
+                    value /
+                    100
+                )
+            );
+
+        firstNumber =
+            null;
+
+        operator =
+            null;
 
     } else {
 
-        current = cleanNumber(
-            value * 1.20
-        );
+        current =
+            cleanNumber(
+                value * 1.20
+            );
     }
 
-    waitingForNumber = true;
+
+    waitingForNumber =
+        true;
+
 
     updateDisplay();
 }
 
 
-/* ---------------- CHECK ---------------- */
+/* =========================================
+   CHECK
+========================================= */
 
-/*
-    IMPORTANT:
+function startCheck() {
 
-    CHECK ONLY USES NUMBERS.
-
-    Operators are NOT displayed.
-*/
-
-function checkCalculation() {
-
-    if (numbers.length === 0) {
+    if (
+        numbers.length === 0
+    ) {
 
         alert(
             "There is no completed calculation to check."
@@ -369,38 +582,64 @@ function checkCalculation() {
         return;
     }
 
+
     checkIndex = 0;
 
     checked = false;
 
-    showCheckPanel();
+    showCheck();
 }
 
 
-function showCheckPanel() {
+function showCheck() {
 
-    const panel =
-        document.getElementById("checkPanel");
+    const overlay =
+        document.getElementById(
+            "checkOverlay"
+        );
 
-    const numberDisplay =
-        document.getElementById("checkNumber");
+
+    const number =
+        document.getElementById(
+            "checkNumber"
+        );
+
 
     const position =
-        document.getElementById("checkPosition");
+        document.getElementById(
+            "checkPosition"
+        );
 
-    numberDisplay.textContent =
+
+    /*
+        ONLY NUMBER IS DISPLAYED.
+
+        Operators are deliberately
+        NOT displayed here.
+    */
+
+    number.textContent =
         formatNumber(
             numbers[checkIndex]
         );
 
-    position.textContent =
-        `${checkIndex + 1} / ${numbers.length}`;
 
-    panel.classList.remove("hidden");
+    position.textContent =
+        ` ${checkIndex + 1} / ${numbers.length}`;
+
+
+    overlay.classList.remove(
+        "hidden"
+    );
+
 
     updateCheckButtons();
 }
 
+
+/* =========================================
+   CHECK NAVIGATION
+========================================= */
 
 function updateCheckButtons() {
 
@@ -409,68 +648,81 @@ function updateCheckButtons() {
             "previousCheck"
         );
 
+
     const next =
         document.getElementById(
             "nextCheck"
         );
 
+
     previous.disabled =
         checkIndex === 0;
 
+
     next.disabled =
-        checkIndex === numbers.length - 1;
-
-    previous.style.opacity =
-        checkIndex === 0
-            ? "0.45"
-            : "1";
-
-    next.style.opacity =
-        checkIndex === numbers.length - 1
-            ? "0.45"
-            : "1";
+        checkIndex ===
+        numbers.length - 1;
 }
 
 
-/* ---------------- NEXT ---------------- */
+/* =========================================
+   NEXT
+========================================= */
 
 document
-    .getElementById("nextCheck")
-    .addEventListener("click", () => {
+    .getElementById(
+        "nextCheck"
+    )
+    .addEventListener(
+        "click",
+        () => {
 
-        if (
-            checkIndex <
-            numbers.length - 1
-        ) {
+            if (
+                checkIndex <
+                numbers.length - 1
+            ) {
 
-            checkIndex++;
+                checkIndex++;
 
-            showCheckPanel();
+                showCheck();
+            }
         }
-    });
+    );
 
 
-/* ---------------- PREVIOUS ---------------- */
+/* =========================================
+   PREVIOUS
+========================================= */
 
 document
-    .getElementById("previousCheck")
-    .addEventListener("click", () => {
+    .getElementById(
+        "previousCheck"
+    )
+    .addEventListener(
+        "click",
+        () => {
 
-        if (checkIndex > 0) {
+            if (
+                checkIndex > 0
+            ) {
 
-            checkIndex--;
+                checkIndex--;
 
-            showCheckPanel();
+                showCheck();
+            }
         }
-    });
+    );
 
 
-/* ---------------- CORRECT ---------------- */
+/* =========================================
+   CORRECT NUMBER
+========================================= */
 
 function correctCurrentNumber() {
 
     const oldValue =
         numbers[checkIndex];
+
 
     const newValue =
         prompt(
@@ -478,17 +730,23 @@ function correctCurrentNumber() {
             oldValue
         );
 
+
     if (
         newValue === null ||
         newValue.trim() === ""
     ) {
+
         return;
     }
+
 
     const parsed =
         Number(newValue);
 
-    if (!Number.isFinite(parsed)) {
+
+    if (
+        !Number.isFinite(parsed)
+    ) {
 
         alert(
             "Please enter a valid number."
@@ -497,121 +755,190 @@ function correctCurrentNumber() {
         return;
     }
 
+
     numbers[checkIndex] =
         parsed;
 
-    recalculateFromEntries();
 
-    showCheckPanel();
+    recalculate();
+
+
+    showCheck();
 }
 
 
-/* ---------------- RECALCULATE ---------------- */
+/* =========================================
+   RECALCULATE AFTER CORRECTION
+========================================= */
 
-function recalculateFromEntries() {
+function recalculate() {
 
-    if (numbers.length === 0) {
+    if (
+        numbers.length === 0
+    ) {
+
         return;
     }
+
 
     let result =
         Number(numbers[0]);
 
+
     for (
         let i = 0;
+
         i < operators.length &&
         i + 1 < numbers.length;
+
         i++
     ) {
 
         const next =
-            Number(numbers[i + 1]);
+            Number(
+                numbers[i + 1]
+            );
 
-        switch (operators[i]) {
+
+        switch (
+            operators[i]
+        ) {
 
             case "+":
+
                 result += next;
+
                 break;
+
 
             case "-":
+
                 result -= next;
+
                 break;
 
+
             case "*":
+
                 result *= next;
+
                 break;
+
 
             case "/":
 
-                if (next === 0) {
-                    result = 0;
-                } else {
+                if (
+                    next !== 0
+                ) {
+
                     result /= next;
+
+                } else {
+
+                    result = 0;
                 }
 
                 break;
         }
     }
 
+
     result =
         Number(
-            Number(result).toFixed(10)
+            Number(result)
+                .toFixed(10)
         );
+
 
     current =
         String(result);
 
+
     lastResult =
         result;
 
-    waitingForNumber = true;
+
+    waitingForNumber =
+        true;
+
 
     updateDisplay();
 }
 
 
-/* ---------------- FINISH CHECK ---------------- */
+/* =========================================
+   FINISH CHECK
+========================================= */
 
 document
-    .getElementById("finishCheck")
-    .addEventListener("click", () => {
+    .getElementById(
+        "finishCheck"
+    )
+    .addEventListener(
+        "click",
+        () => {
 
-        checked = true;
-
-        document
-            .getElementById("checkPanel")
-            .classList.add("hidden");
-
-        modeDisplay.textContent =
-            "✓ CHECKED — SAVE HISTORY";
-
-        updateDisplay();
-    });
+            checked = true;
 
 
-/* ---------------- CLOSE CHECK ---------------- */
+            document
+                .getElementById(
+                    "checkOverlay"
+                )
+                .classList.add(
+                    "hidden"
+                );
+
+
+            modeDisplay.textContent =
+                "✓ CHECKED — SAVE HISTORY";
+
+
+            updateDisplay();
+        }
+    );
+
+
+/* =========================================
+   CLOSE CHECK
+========================================= */
 
 document
-    .getElementById("closeCheck")
-    .addEventListener("click", () => {
+    .getElementById(
+        "closeCheck"
+    )
+    .addEventListener(
+        "click",
+        () => {
 
-        document
-            .getElementById("checkPanel")
-            .classList.add("hidden");
-    });
+            document
+                .getElementById(
+                    "checkOverlay"
+                )
+                .classList.add(
+                    "hidden"
+                );
+        }
+    );
 
 
-/* ---------------- CORRECT BUTTON ---------------- */
+/* =========================================
+   CORRECT BUTTON
+========================================= */
 
 document
-    .getElementById("correctNumber")
+    .getElementById(
+        "correctNumber"
+    )
     .addEventListener(
         "click",
         correctCurrentNumber
     );
 
 
-/* ---------------- HISTORY ---------------- */
+/* =========================================
+   HISTORY
+========================================= */
 
 function getHistory() {
 
@@ -630,6 +957,58 @@ function getHistory() {
 }
 
 
+function createExpression() {
+
+    let expression = "";
+
+
+    for (
+        let i = 0;
+
+        i < numbers.length;
+
+        i++
+    ) {
+
+        expression +=
+            formatNumber(
+                numbers[i]
+            );
+
+
+        if (
+            i < operators.length
+        ) {
+
+            const symbol = {
+
+                "+": "+",
+
+                "-": "−",
+
+                "*": "×",
+
+                "/": "÷"
+
+            }[
+                operators[i]
+            ];
+
+
+            expression +=
+                ` ${symbol} `;
+        }
+    }
+
+
+    return expression;
+}
+
+
+/* =========================================
+   SAVE HISTORY
+========================================= */
+
 function saveCalculation() {
 
     if (!checked) {
@@ -641,12 +1020,18 @@ function saveCalculation() {
         return;
     }
 
-    if (lastResult === null) {
+
+    if (
+        lastResult === null
+    ) {
+
         return;
     }
 
+
     const history =
         getHistory();
+
 
     history.unshift({
 
@@ -657,97 +1042,65 @@ function saveCalculation() {
             lastResult,
 
         time:
-            new Date().toLocaleString()
+            new Date()
+                .toLocaleString()
     });
+
 
     localStorage.setItem(
         "moneyCalculatorHistory",
         JSON.stringify(history)
     );
 
+
     document
-        .getElementById("checkPanel")
-        .classList.add("hidden");
+        .getElementById(
+            "checkOverlay"
+        )
+        .classList.add(
+            "hidden"
+        );
+
 
     modeDisplay.textContent =
         "✓ SAVED TO HISTORY";
+
 
     openHistory();
 }
 
 
-/* ---------------- EXPRESSION ---------------- */
-
-function createExpression() {
-
-    let expression = "";
-
-    for (
-        let i = 0;
-        i < numbers.length;
-        i++
-    ) {
-
-        expression +=
-            formatNumber(numbers[i]);
-
-        if (
-            i < operators.length
-        ) {
-
-            const symbol = {
-
-                "+": "+",
-                "-": "−",
-                "*": "×",
-                "/": "÷"
-
-            }[operators[i]];
-
-            expression +=
-                ` ${symbol} `;
-        }
-    }
-
-    return expression;
-}
-
-
-/* ---------------- FORMAT ---------------- */
-
-function formatNumber(number) {
-
-    return Number(number).toLocaleString(
-        "en-IN",
-        {
-            maximumFractionDigits: 10
-        }
-    );
-}
-
-
-/* ---------------- HISTORY UI ---------------- */
+/* =========================================
+   OPEN HISTORY
+========================================= */
 
 function openHistory() {
 
-    const panel =
+    const overlay =
         document.getElementById(
-            "historyPanel"
+            "historyOverlay"
         );
+
 
     const list =
         document.getElementById(
             "historyList"
         );
 
+
     const history =
         getHistory();
 
+
     list.innerHTML = "";
 
-    if (history.length === 0) {
+
+    if (
+        history.length === 0
+    ) {
 
         list.innerHTML = `
+
             <p style="
                 text-align:center;
                 color:#777;
@@ -755,6 +1108,7 @@ function openHistory() {
             ">
                 No saved calculations.
             </p>
+
         `;
 
     } else {
@@ -767,26 +1121,39 @@ function openHistory() {
                         "div"
                     );
 
+
                 div.className =
                     "history-item";
+
 
                 div.innerHTML = `
 
                     <div class="history-time">
-                        ${escapeHTML(item.time)}
+
+                        ${escapeHTML(
+                            item.time
+                        )}
+
                     </div>
 
+
                     <div class="history-expression">
+
                         ${escapeHTML(
                             item.expression
                         )}
+
                     </div>
 
+
                     <div class="history-result">
+
                         = ${escapeHTML(
                             String(item.result)
                         )}
+
                     </div>
+
 
                     <button
                         class="delete-history"
@@ -794,211 +1161,321 @@ function openHistory() {
                     >
                         DELETE
                     </button>
+
                 `;
+
 
                 list.appendChild(div);
             }
         );
 
+
         document
             .querySelectorAll(
                 ".delete-history"
             )
-            .forEach(button => {
+            .forEach(
+                button => {
 
-                button.addEventListener(
-                    "click",
-                    () => {
+                    button.addEventListener(
+                        "click",
+                        () => {
 
-                        const index =
-                            Number(
-                                button.dataset.index
+                            const index =
+                                Number(
+                                    button.dataset
+                                        .index
+                                );
+
+
+                            const history =
+                                getHistory();
+
+
+                            history.splice(
+                                index,
+                                1
                             );
 
-                        const history =
-                            getHistory();
 
-                        history.splice(
-                            index,
-                            1
-                        );
+                            localStorage.setItem(
+                                "moneyCalculatorHistory",
+                                JSON.stringify(
+                                    history
+                                )
+                            );
 
-                        localStorage.setItem(
-                            "moneyCalculatorHistory",
-                            JSON.stringify(history)
-                        );
 
-                        openHistory();
-                    }
-                );
-            });
+                            openHistory();
+                        }
+                    );
+                }
+            );
     }
 
-    panel.classList.remove(
+
+    overlay.classList.remove(
         "hidden"
     );
 }
 
 
-/* ---------------- CLOSE HISTORY ---------------- */
+/* =========================================
+   CLOSE HISTORY
+========================================= */
 
 document
-    .getElementById("closeHistory")
-    .addEventListener("click", () => {
+    .getElementById(
+        "closeHistory"
+    )
+    .addEventListener(
+        "click",
+        () => {
 
-        document
-            .getElementById("historyPanel")
-            .classList.add("hidden");
-    });
-
-
-/* ---------------- CLEAR HISTORY ---------------- */
-
-document
-    .getElementById("clearHistory")
-    .addEventListener("click", () => {
-
-        if (
-            confirm(
-                "Delete all calculation history?"
-            )
-        ) {
-
-            localStorage.removeItem(
-                "moneyCalculatorHistory"
-            );
-
-            openHistory();
+            document
+                .getElementById(
+                    "historyOverlay"
+                )
+                .classList.add(
+                    "hidden"
+                );
         }
-    });
+    );
 
 
-/* ---------------- SAVE HISTORY ---------------- */
+/* =========================================
+   CLEAR HISTORY
+========================================= */
 
 document
-    .getElementById("saveCalculation")
+    .getElementById(
+        "clearHistory"
+    )
+    .addEventListener(
+        "click",
+        () => {
+
+            if (
+                confirm(
+                    "Delete all calculation history?"
+                )
+            ) {
+
+                localStorage.removeItem(
+                    "moneyCalculatorHistory"
+                );
+
+
+                openHistory();
+            }
+        }
+    );
+
+
+/* =========================================
+   SAVE BUTTON
+========================================= */
+
+document
+    .getElementById(
+        "saveCalculation"
+    )
     .addEventListener(
         "click",
         saveCalculation
     );
 
 
-/* ---------------- BUTTONS ---------------- */
+/* =========================================
+   BUTTON EVENTS
+========================================= */
 
 document
-    .querySelectorAll("[data-value]")
-    .forEach(button => {
+    .querySelectorAll(
+        "[data-value]"
+    )
+    .forEach(
+        button => {
 
-        button.addEventListener(
-            "click",
-            () => {
+            button.addEventListener(
+                "click",
+                () => {
 
-                const value =
-                    button.dataset.value;
+                    const value =
+                        button.dataset
+                            .value;
 
-                if (
-                    ["+", "-", "*", "/"]
-                    .includes(value)
-                ) {
 
-                    inputOperator(value);
+                    if (
+                        [
+                            "+",
+                            "-",
+                            "*",
+                            "/"
+                        ].includes(value)
+                    ) {
 
-                } else {
+                        inputOperator(value);
 
-                    inputNumber(value);
+                    } else {
+
+                        inputNumber(value);
+                    }
                 }
-            }
-        );
-    });
+            );
+        }
+    );
 
 
 document
-    .querySelectorAll("[data-action]")
-    .forEach(button => {
+    .querySelectorAll(
+        "[data-action]"
+    )
+    .forEach(
+        button => {
 
-        button.addEventListener(
-            "click",
-            () => {
+            button.addEventListener(
+                "click",
+                () => {
 
-                const action =
-                    button.dataset.action;
+                    const action =
+                        button.dataset
+                            .action;
 
-                switch (action) {
 
-                    case "equals":
-                        equals();
-                        break;
+                    switch (action) {
 
-                    case "ac":
-                        clearAll();
-                        break;
+                        case "equals":
 
-                    case "ce":
-                        clearEntry();
-                        break;
+                            equals();
 
-                    case "check":
-                        checkCalculation();
-                        break;
+                            break;
 
-                    case "correct":
 
-                        if (
-                            numbers.length > 0
-                        ) {
-                            checkCalculation();
-                        }
+                        case "ac":
 
-                        break;
+                            clearAll();
 
-                    case "memory-plus":
-                        memoryPlus();
-                        break;
+                            break;
 
-                    case "memory-minus":
-                        memoryMinus();
-                        break;
 
-                    case "memory-recall":
-                        memoryRecall();
-                        break;
+                        case "ce":
 
-                    case "gt":
-                        grandTotalFunction();
-                        break;
+                            clearEntry();
 
-                    case "percent":
-                        percentage();
-                        break;
+                            break;
 
-                    case "mu":
-                        markup();
-                        break;
 
-                    case "sqrt":
-                        squareRoot();
-                        break;
+                        case "check":
+
+                            startCheck();
+
+                            break;
+
+
+                        case "correct":
+
+                            if (
+                                numbers.length > 0
+                            ) {
+
+                                startCheck();
+                            }
+
+                            break;
+
+
+                        case "memory-plus":
+
+                            memoryPlus();
+
+                            break;
+
+
+                        case "memory-minus":
+
+                            memoryMinus();
+
+                            break;
+
+
+                        case "memory-recall":
+
+                            memoryRecall();
+
+                            break;
+
+
+                        case "gt":
+
+                            grandTotalFunction();
+
+                            break;
+
+
+                        case "percent":
+
+                            percentage();
+
+                            break;
+
+
+                        case "mu":
+
+                            markup();
+
+                            break;
+
+
+                        case "sqrt":
+
+                            squareRoot();
+
+                            break;
+
+
+                        case "auto-replay":
+
+                            if (
+                                numbers.length > 0
+                            ) {
+
+                                startCheck();
+                            }
+
+                            break;
+                    }
                 }
-            }
-        );
-    });
+            );
+        }
+    );
 
 
-/* ---------------- KEYBOARD ---------------- */
+/* =========================================
+   HISTORY BUTTON
+========================================= */
+
+document
+    .querySelector(
+        '[data-action="history"]'
+    )
+    ?.addEventListener(
+        "click",
+        openHistory
+    );
+
+
+/* =========================================
+   KEYBOARD
+========================================= */
 
 document.addEventListener(
     "keydown",
     event => {
 
-        if (
-            event.target.tagName === "INPUT" ||
-            event.target.tagName === "TEXTAREA"
-        ) {
-            return;
-        }
-
         const key =
             event.key;
+
 
         if (
             /^[0-9.]$/.test(key)
@@ -1009,15 +1486,21 @@ document.addEventListener(
             return;
         }
 
+
         if (
-            ["+", "-", "*", "/"]
-            .includes(key)
+            [
+                "+",
+                "-",
+                "*",
+                "/"
+            ].includes(key)
         ) {
 
             inputOperator(key);
 
             return;
         }
+
 
         if (
             key === "Enter" ||
@@ -1029,6 +1512,7 @@ document.addEventListener(
             return;
         }
 
+
         if (
             key === "Escape"
         ) {
@@ -1037,6 +1521,7 @@ document.addEventListener(
 
             return;
         }
+
 
         if (
             key === "Backspace"
@@ -1048,19 +1533,59 @@ document.addEventListener(
 );
 
 
-/* ---------------- ESCAPE HTML ---------------- */
+/* =========================================
+   FORMAT NUMBER
+========================================= */
+
+function formatNumber(number) {
+
+    return Number(number)
+        .toLocaleString(
+            "en-IN",
+            {
+                maximumFractionDigits: 10
+            }
+        );
+}
+
+
+/* =========================================
+   ESCAPE HTML
+========================================= */
 
 function escapeHTML(value) {
 
     return String(value)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
+
+        .replaceAll(
+            "&",
+            "&amp;"
+        )
+
+        .replaceAll(
+            "<",
+            "&lt;"
+        )
+
+        .replaceAll(
+            ">",
+            "&gt;"
+        )
+
+        .replaceAll(
+            '"',
+            "&quot;"
+        )
+
+        .replaceAll(
+            "'",
+            "&#039;"
+        );
 }
 
 
-/* ---------------- START ---------------- */
+/* =========================================
+   INITIALIZE
+========================================= */
 
 updateDisplay();

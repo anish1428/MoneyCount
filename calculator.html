@@ -3,87 +3,210 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Money Calculator</title>
+
     <link rel="stylesheet" href="calculator.css">
 </head>
+
 <body>
 
 <div class="calculator-app">
 
     <div class="calculator">
 
+        <!-- TOP BRAND -->
         <div class="brand-row">
             <div class="brand">CASIO</div>
             <div class="model">ST-1786</div>
         </div>
 
+        <!-- DISPLAY -->
         <div class="display-area">
+
             <div id="mode" class="mode"></div>
+
             <div id="display">0</div>
+
         </div>
 
-        <div class="control-row">
-            <button class="special check" data-action="check">CHECK</button>
-            <button class="special correct" data-action="correct">CORRECT</button>
-            <button class="special ac" data-action="ac">AC</button>
+
+        <!-- CHECK / CORRECT / AC -->
+        <div class="top-buttons">
+
+            <button
+                class="check-button"
+                data-action="check">
+                CHECK
+            </button>
+
+            <button
+                class="check-button"
+                data-action="correct">
+                CORRECT
+            </button>
+
+            <button
+                class="ac-button"
+                data-action="ac">
+                AC
+            </button>
+
         </div>
 
-        <div class="memory-row">
-            <button data-action="memory-plus">M+</button>
-            <button data-action="memory-minus">M−</button>
-            <button data-action="memory-recall">MRC</button>
-            <button data-action="gt">GT</button>
-            <button data-action="history">HISTORY</button>
+
+        <!-- MEMORY ROW -->
+        <div class="memory-buttons">
+
+            <button data-action="memory-plus">
+                M+
+            </button>
+
+            <button data-action="memory-minus">
+                M−
+            </button>
+
+            <button data-action="memory-recall">
+                MRC
+            </button>
+
+            <button data-action="auto-replay">
+                AUTO<br>REPLAY
+            </button>
+
+            <button data-action="ce">
+                CE
+            </button>
+
         </div>
 
+
+        <!-- MAIN KEYPAD -->
         <div class="keypad">
 
+            <!-- ROW 1 -->
             <button class="number" data-value="7">7</button>
             <button class="number" data-value="8">8</button>
             <button class="number" data-value="9">9</button>
-            <button class="operator" data-value="/">÷</button>
-            <button class="function" data-action="percent">%</button>
 
+            <button class="operator" data-value="/">
+                ÷
+            </button>
+
+            <button class="function" data-action="gt">
+                GT
+            </button>
+
+
+            <!-- ROW 2 -->
             <button class="number" data-value="4">4</button>
             <button class="number" data-value="5">5</button>
             <button class="number" data-value="6">6</button>
-            <button class="operator" data-value="*">×</button>
-            <button class="function" data-action="mu">MU</button>
 
+            <button class="operator" data-value="*">
+                ×
+            </button>
+
+            <button class="function" data-action="percent">
+                %
+            </button>
+
+
+            <!-- ROW 3 -->
             <button class="number" data-value="1">1</button>
             <button class="number" data-value="2">2</button>
             <button class="number" data-value="3">3</button>
-            <button class="operator" data-value="-">−</button>
-            <button class="function" data-action="sqrt">√</button>
 
-            <button class="number wide-number" data-value="00">00</button>
-            <button class="number" data-value="0">0</button>
-            <button class="number" data-value=".">.</button>
-            <button class="operator plus" data-value="+">+</button>
-            <button class="equals" data-action="equals">=</button>
+            <button class="operator" data-value="-">
+                −
+            </button>
 
-            <button class="function bottom-function" data-action="ce">CE</button>
-            <button class="empty"></button>
-            <button class="empty"></button>
-            <button class="empty"></button>
-            <button class="empty"></button>
+            <button class="function" data-action="mu">
+                MU
+            </button>
+
+
+            <!-- ROW 4 -->
+            <button class="number" data-value="0">
+                0
+            </button>
+
+            <button class="number" data-value="00">
+                00
+            </button>
+
+            <button class="number" data-value=".">
+                .
+            </button>
+
+            <!-- PLUS = DOUBLE HEIGHT -->
+            <button
+                class="operator plus-button"
+                data-value="+">
+                +
+            </button>
+
+            <button
+                class="function"
+                data-action="sqrt">
+                √
+            </button>
+
+
+            <!-- ROW 5 -->
+            <button
+                class="number"
+                data-value="000">
+                000
+            </button>
+
+            <button
+                class="number"
+                data-value="0000">
+                0000
+            </button>
+
+            <button class="empty-key"></button>
+
+            <!-- + occupies this row too -->
+
+            <!-- EQUALS ON RIGHT -->
+            <button
+                class="equals-button"
+                data-action="equals">
+                =
+            </button>
 
         </div>
 
     </div>
 
-    <div id="historyPanel" class="overlay hidden">
 
-        <div class="panel">
+    <!-- ================= HISTORY ================= -->
 
-            <div class="panel-header">
+    <div
+        id="historyOverlay"
+        class="overlay hidden">
+
+        <div class="modal">
+
+            <div class="modal-header">
+
                 <h2>Calculation History</h2>
-                <button id="closeHistory">×</button>
+
+                <button
+                    id="closeHistory"
+                    class="close-button">
+                    ×
+                </button>
+
             </div>
 
             <div id="historyList"></div>
 
-            <button id="clearHistory" class="clear-history">
+            <button
+                id="clearHistory"
+                class="clear-history">
                 CLEAR HISTORY
             </button>
 
@@ -91,26 +214,43 @@
 
     </div>
 
-    <div id="checkPanel" class="overlay hidden">
 
-        <div class="panel check-panel">
+    <!-- ================= CHECK ================= -->
 
-            <div class="panel-header">
+    <div
+        id="checkOverlay"
+        class="overlay hidden">
+
+        <div class="modal check-modal">
+
+            <div class="modal-header">
+
                 <h2>CHECK</h2>
-                <button id="closeCheck">×</button>
+
+                <button
+                    id="closeCheck"
+                    class="close-button">
+                    ×
+                </button>
+
             </div>
 
-            <div class="check-content">
 
-                <div class="check-label">
-                    NUMBER <span id="checkPosition"></span>
+            <div class="check-display">
+
+                <div class="check-step-label">
+                    NUMBER
+                    <span id="checkPosition"></span>
                 </div>
 
-                <div id="checkNumber" class="check-number">
+                <div
+                    id="checkNumber"
+                    class="check-number">
                     0
                 </div>
 
             </div>
+
 
             <div class="check-navigation">
 
@@ -124,6 +264,7 @@
 
             </div>
 
+
             <div class="check-actions">
 
                 <button id="correctNumber">
@@ -134,7 +275,9 @@
                     ✓ FINISH CHECK
                 </button>
 
-                <button id="saveCalculation">
+                <button
+                    id="saveCalculation"
+                    class="save-button">
                     SAVE HISTORY
                 </button>
 
@@ -145,6 +288,7 @@
     </div>
 
 </div>
+
 
 <script src="calculator.js"></script>
 
